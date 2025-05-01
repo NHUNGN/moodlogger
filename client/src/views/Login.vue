@@ -22,15 +22,18 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '../store/authStore' 
 
+// State
 const email = ref('')
 const password = ref('')
 const error = ref('')
 const isLoading = ref(false)
+
 const router = useRouter()
+const authStore = useAuthStore() 
 
 const login = async () => {
-  // Reset error message and set loading state
   error.value = ''
   isLoading.value = true
 
@@ -39,10 +42,10 @@ const login = async () => {
       email: email.value,
       password: password.value,
     })
-    // Assuming a token is returned after login
-    // Save the token (e.g., to localStorage or Pinia store)
+
     localStorage.setItem('token', res.data.token)
-    router.push('/main')  // Redirect to main page after successful login
+    authStore.setToken(res.data.token) 
+    router.push('/main') 
   } catch (err) {
     error.value = 'Login failed. Check your credentials.'
   } finally {

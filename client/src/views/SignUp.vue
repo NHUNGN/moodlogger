@@ -44,6 +44,8 @@ const signup = async () => {
   }
 
   try {
+    console.log('Submitting signup with:', email.value, password.value);
+
     const res = await axios.post('http://localhost:3000/api/auth/signup', {
       email: email.value,
       password: password.value,
